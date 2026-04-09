@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buy My Book</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg1: #f4f1ea;
+      --bg2: #fdfdfd;
+      --text: #222;
+      --muted: #555;
+      --card: #ffffff;
+      --accent-dark: #111;
+      --accent-brown: #3a2f1f;
+      --gold-bg: #f4e7c5;
+      --gold-text: #6b4d00;
+      --green-bg: #eaf7ea;
+      --green-text: #117a2a;
+      --green-border: #cde9cf;
+      --pay-bg: #fff8e7;
+      --pay-border: #f0d98a;
+      --border: #e8e8e8;
+      --input-border: #d8d8d8;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px;
+      line-height: 1.5;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    .top-banner {
+      background: linear-gradient(135deg, var(--accent-dark), var(--accent-brown));
+      color: white;
+      text-align: center;
+      padding: 24px 16px;
+    }
+
+    .top-banner h1 {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      margin-bottom: 8px;
+      letter-spacing: 0.4px;
+    }
+
+    .top-banner p {
+      font-size: clamp(0.95rem, 2vw, 1.05rem);
+      opacity: 0.95;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .book-section {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding: 18px;
+    }
+
+    .book-image {
+      width: 100%;
+      text-align: center;
+    }
+
+    .book-image img {
+      width: 100%;
+      max-width: 360px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.14);
+      object-fit: cover;
+    }
+
+    .details {
+      width: 100%;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--gold-bg);
+      color: var(--gold-text);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: bold;
+      margin-bottom: 14px;
+    }
+
+    .details h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin-bottom: 12px;
+      color: var(--accent-dark);
+      line-height: 1.25;
+    }
+
+    .description {
+      font-size: clamp(0.96rem, 2vw, 1rem);
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .price-box {
+      display: inline-block;
+      background: var(--green-bg);
+      color: var(--green-text);
+      font-size: clamp(1.3rem, 3vw, 1.75rem);
+      font-weight: bold;
+      padding: 12px 18px;
+      border-radius: 12px;
+      margin-bottom: 22px;
+      border: 1px solid var(--green-border);
+    }
+
+    .payment {
+      background: var(--pay-bg);
+      border: 1px solid var(--pay-border);
+      padding: 16px;
+      border-radius: 14px;
+      margin-bottom: 22px;
+    }
+
+    .payment h3 {
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      margin-bottom: 10px;
+      color: var(--gold-text);
+    }
+
+    .payment p {
+      margin: 7px 0;
+      font-size: 0.96rem;
+      word-break: break-word;
+    }
+
+    .payment strong {
+      color: var(--text);
+    }
+
+    form {
+      background: #fafafa;
+      border: 1px solid var(--border);
+      padding: 18px;
+      border-radius: 16px;
+    }
+
+    form h3 {
+      margin-bottom: 16px;
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      color: var(--accent-dark);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-size: 0.92rem;
+      color: #333;
+    }
+
+    input,
+    textarea,
+    button {
+      width: 100%;
+      font-size: 16px;
+    }
+
+    input,
+    textarea {
+      padding: 13px 14px;
+      border: 1px solid var(--input-border);
+      border-radius: 10px;
+      outline: none;
+      transition: 0.25s ease;
+      background: white;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #222;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.07);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    input[type="file"] {
+      padding: 10px;
+    }
+
+    button {
+      padding: 15px;
+      background: linear-gradient(135deg, #111, #333);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+      margin-top: 5px;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
+    }
+
+    .footer-note {
+      text-align: center;
+      padding: 18px 14px;
+      font-size: 0.9rem;
+      color: #777;
+      border-top: 1px solid #eee;
+      background: #fcfcfc;
+    }
+
+    /* Tablet */
+    @media (min-width: 768px) {
+      body {
+        padding: 24px;
+      }
+
+      .book-section {
+        padding: 28px;
+        gap: 28px;
+      }
+
+      form {
+        padding: 22px;
+      }
+    }
+
+    /* Laptop and larger screens */
+    @media (min-width: 992px) {
+      .book-section {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 36px;
+        padding: 36px;
+      }
+
+      .book-image {
+        flex: 0 0 38%;
+      }
+
+      .details {
+        flex: 1;
+      }
+
+      .book-image img {
+        max-width: 100%;
+      }
+    }
+
+    /* Very small devices */
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+
+      .card {
+        border-radius: 14px;
+      }
+
+      .top-banner {
+        padding: 20px 14px;
+      }
+
+      .book-section {
+        padding: 14px;
+        gap: 18px;
+      }
+
+      .payment,
+      form {
+        padding: 14px;
+      }
+
+      .price-box {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="card">
+
+      <div class="top-banner">
+        <h1>Buy My Book</h1>
+        <p>Order your copy today and upload payment proof to confirm your order.</p>
+      </div>
+
+      <div class="book-section">
+        <div class="book-image">
+          <img src="Book.jpeg" alt="Book Cover">
+        </div>
+
+        <div class="details">
+          <div class="badge">Available Now</div>
+          <h2>MATS TRIAD (2nd Edition)</h2>
+
+          <p class="description">
+            This is a short description of your book. Add a compelling summary here so readers
+            understand what the book is about and why they should buy it.
+          </p>
+
+          <div class="price-box">Rs. 2550</div>
+
+          <div class="payment">
+            <h3>Payment Details</h3>
+            <p><strong>JazzCash:</strong> 0309-8922883</p>
+            <p><strong>Allied Bank Limited:</strong> 51950020144104730015</p>
+            <p><strong>Account Title:</strong> Muneeb Ahmed</p>
+            <p>After sending payment, upload the screenshot below and complete your order form.</p>
+          </div>
+
+          <form action="https://formsubmit.co/fizzashoaib13L@gmail.com" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_captcha" value="false">
+
+            <h3>Place Your Order</h3>
+
+            <div class="form-group">
+              <label for="quantity">Quantity</label>
+              <input type="number" id="quantity" name="quantity" min="1" placeholder="Enter quantity" required>
+            </div>
+
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="address">Address</label>
+              <textarea id="address" name="address" placeholder="Enter your complete address" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="text" id="phone" name="phone" placeholder="Enter your phone number" required>
+            </div>
+
+            <div class="form-group">
+              <label for="attachment">Payment Screenshot</label>
+              <input type="file" id="attachment" name="attachment" required>
+            </div>
+
+            <button type="submit">Place Order</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        Thank you for your interest in this book.
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
