@@ -243,6 +243,37 @@
       border-top: 1px solid #eee;
       background: #fcfcfc;
     }
+ 
+  .address-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .address-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .address-option input[type="radio"] {
+    width: auto;
+    margin: 0;
+    flex: 0 0 auto;
+  }
+
+  .address-option label {
+    margin: 0;
+    font-weight: 600;
+    display: inline;
+  }
+
+  #customAddress {
+    display: none;
+    margin-top: 10px;
+    width: 100%;
+  }
+
 
     /* Tablet */
     @media (min-width: 768px) {
@@ -313,25 +344,7 @@
     }
   </style>
 </head>
-  <script>
-  const defaultAddress = document.getElementById("defaultAddress");
-  const otherAddressOption = document.getElementById("otherAddressOption");
-  const customAddress = document.getElementById("customAddress");
 
-  function toggleAddressField() {
-    if (otherAddressOption.checked) {
-      customAddress.style.display = "block";
-      customAddress.required = true;
-    } else {
-      customAddress.style.display = "none";
-      customAddress.required = false;
-      customAddress.value = "";
-    }
-  }
-
-  defaultAddress.addEventListener("change", toggleAddressField);
-  otherAddressOption.addEventListener("change", toggleAddressField);
-</script>
 <body>
 
   <div class="container">
@@ -380,24 +393,25 @@
               <input type="text" id="name" name="name" placeholder="Enter your full name" required>
             </div>
 
-           <div class="form-group">
+  <div class="form-group">
   <label>Address</label>
 
-  <div style="margin-bottom:10px;">
-    <input type="radio" id="defaultAddress" name="address_type" value="OTB, RMU, Tipu Road" required>
-    <label for="defaultAddress">OTB, RMU, Tipu Road</label>
-  </div>
+  <div class="address-options">
+    <div class="address-option">
+      <input type="radio" id="defaultAddress" name="address_type" value="OTB, RMU, Tipu Road" required>
+      <label for="defaultAddress">OTB, RMU, Tipu Road</label>
+    </div>
 
-  <div style="margin-bottom:10px;">
-    <input type="radio" id="otherAddressOption" name="address_type" value="Other">
-    <label for="otherAddressOption">Others (Pay Rs. 250 extra)</label>
+    <div class="address-option">
+      <input type="radio" id="otherAddressOption" name="address_type" value="Other">
+      <label for="otherAddressOption">Others (Pay Rs. 250 extra)</label>
+    </div>
   </div>
 
   <textarea
     id="customAddress"
     name="custom_address"
     placeholder="Write your complete address here"
-    style="display:none; margin-top:10px;"
   ></textarea>
 </div>
 
@@ -422,6 +436,26 @@
 
     </div>
   </div>
+<script>
+  const defaultAddress = document.getElementById("defaultAddress");
+  const otherAddressOption = document.getElementById("otherAddressOption");
+  const customAddress = document.getElementById("customAddress");
 
+  function toggleAddressField() {
+    if (otherAddressOption.checked) {
+      customAddress.style.display = "block";
+      customAddress.required = true;
+    } else {
+      customAddress.style.display = "none";
+      customAddress.required = false;
+      customAddress.value = "";
+    }
+  }
+
+  defaultAddress.addEventListener("change", toggleAddressField);
+  otherAddressOption.addEventListener("change", toggleAddressField);
+
+  toggleAddressField();
+</script>
 </body>
 </html>
