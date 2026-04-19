@@ -377,56 +377,69 @@
             <p><strong>Account Title:</strong> Muneeb Ahmed</p>
             <p>After sending payment, upload the screenshot below and complete your order form.</p>
           </div>
+<form action="https://formsubmit.co/matstriad@gmail.com" method="POST" enctype="multipart/form-data">
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" id="finalPriceInput" name="final_price" value="2550">
+  <input type="hidden" id="promoStatusInput" name="promo_status" value="Not Applied">
 
-          <form action="https://formsubmit.co/matstriad@gmail.com" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="_captcha" value="false">
-
-            <h3>Place Your Order</h3>
-
-            <div class="form-group">
-              <label for="quantity">Quantity</label>
-              <input type="number" id="quantity" name="quantity" min="1" placeholder="Enter quantity" required>
-            </div>
-
-            <div class="form-group">
-              <label for="name">Full Name</label>
-              <input type="text" id="name" name="name" placeholder="Enter your full name" required>
-            </div>
+  <h3>Place Your Order</h3>
 
   <div class="form-group">
-  <label>Address</label>
-
-  <div class="address-options">
-    <div class="address-option">
-      <input type="radio" id="defaultAddress" name="address_type" value="OTB, RMU, Tipu Road" required>
-      <label for="defaultAddress">OTB, Rawalpindi Medical University, Tipu Road</label>
-    </div>
-
-    <div class="address-option">
-      <input type="radio" id="otherAddressOption" name="address_type" value="Other">
-      <label for="otherAddressOption">Other Address (Pay Rs. 250 extra, Total = Rs. 2800)</label>
-    </div>
+    <label for="quantity">Quantity</label>
+    <input type="number" id="quantity" name="quantity" min="1" value="1" placeholder="Enter quantity" required>
   </div>
 
-  <textarea
-    id="customAddress"
-    name="custom_address"
-    placeholder="Write your complete address here"
-  ></textarea>
-</div>
+  <div class="form-group">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+  </div>
 
-            <div class="form-group">
-              <label for="phone">Phone Number</label>
-              <input type="text" id="phone" name="phone" placeholder="Enter your phone number" required>
-            </div>
+  <div class="form-group">
+    <label>Address</label>
 
-            <div class="form-group">
-              <label for="attachment">Payment Screenshot</label>
-              <input type="file" id="attachment" name="attachment" required>
-            </div>
+    <div class="address-options">
+      <div class="address-option">
+        <input type="radio" id="defaultAddress" name="address_type" value="OTB, RMU, Tipu Road" required>
+        <label for="defaultAddress">OTB, Rawalpindi Medical University, Tipu Road</label>
+      </div>
 
-            <button type="submit">Place Order</button>
-          </form>
+      <div class="address-option">
+        <input type="radio" id="otherAddressOption" name="address_type" value="Other">
+        <label for="otherAddressOption">Other Address (Pay Rs. 250 extra per book)</label>
+      </div>
+    </div>
+
+    <textarea
+      id="customAddress"
+      name="custom_address"
+      placeholder="Write your complete address here"
+    ></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="phone">Phone Number</label>
+    <input type="text" id="phone" name="phone" placeholder="Enter your phone number" required>
+  </div>
+
+  <div class="form-group">
+    <label for="promoCode">Promo Code</label>
+    <input type="text" id="promoCode" name="promo_code" placeholder="Enter promo code">
+    <small id="promoMessage" style="display:block; margin-top:8px; font-weight:600;"></small>
+  </div>
+
+  <div class="form-group">
+    <label for="attachment">Payment Screenshot</label>
+    <input type="file" id="attachment" name="attachment" required>
+  </div>
+
+  <div class="form-group" style="background:#f8f8f8; border:1px solid #ddd; padding:14px; border-radius:12px;">
+    <label style="margin-bottom:10px;">Final Price</label>
+    <div id="finalPriceDisplay" style="font-size:1.3rem; font-weight:bold; color:#117a2a;">Rs. 2550</div>
+  </div>
+
+  <button type="submit">Place Order</button>
+</form>
+
         </div>
       </div>
 
@@ -440,6 +453,25 @@
   const defaultAddress = document.getElementById("defaultAddress");
   const otherAddressOption = document.getElementById("otherAddressOption");
   const customAddress = document.getElementById("customAddress");
+  const promoCodeInput = document.getElementById("promoCode");
+  const promoMessage = document.getElementById("promoMessage");
+  const finalPriceDisplay = document.getElementById("finalPriceDisplay");
+  const finalPriceInput = document.getElementById("finalPriceInput");
+  const promoStatusInput = document.getElementById("promoStatusInput");
+  const quantityInput = document.getElementById("quantity");
+
+  const validPromoCodes = [
+    "MATS10",
+    "TRIAD10",
+    "BOOK10",
+    "MBBS10",
+    "ANATOMY10",
+    "RMU10",
+    "MED10",
+    "STUDENT10",
+    "SALE10",
+    "DISCOUNT10"
+  ];
 
   function toggleAddressField() {
     if (otherAddressOption.checked) {
@@ -450,12 +482,51 @@
       customAddress.required = false;
       customAddress.value = "";
     }
+
+    updateFinalPrice();
+  }
+
+  function updateFinalPrice() {
+    let unitPrice = 2550;
+
+    if (otherAddressOption.checked) {
+      unitPrice = 2800;
+    }
+
+    let quantity = parseInt(quantityInput.value, 10);
+    if (isNaN(quantity) || quantity < 1) {
+      quantity = 1;
+    }
+
+    let totalPrice = unitPrice * quantity;
+    const enteredCode = promoCodeInput.value.trim();
+    let finalPrice = totalPrice;
+
+    if (enteredCode === "") {
+      promoMessage.textContent = "";
+      promoStatusInput.value = "Not Applied";
+    } else if (validPromoCodes.includes(enteredCode)) {
+      finalPrice = Math.round(totalPrice * 0.9);
+      promoMessage.textContent = "Valid promo code applied. 10% discount added.";
+      promoMessage.style.color = "#117a2a";
+      promoStatusInput.value = "Applied";
+    } else {
+      promoMessage.textContent = "Invalid promo code.";
+      promoMessage.style.color = "#c62828";
+      promoStatusInput.value = "Invalid";
+    }
+
+    finalPriceDisplay.textContent = "Rs. " + finalPrice;
+    finalPriceInput.value = finalPrice;
   }
 
   defaultAddress.addEventListener("change", toggleAddressField);
   otherAddressOption.addEventListener("change", toggleAddressField);
+  promoCodeInput.addEventListener("input", updateFinalPrice);
+  quantityInput.addEventListener("input", updateFinalPrice);
 
   toggleAddressField();
+  updateFinalPrice();
 </script>
 </body>
 </html>
